@@ -55,7 +55,6 @@ reddit_clientId =get_args("REDDIT_CLIENTID",None)
 reddit_clientSecret=get_args("REDDIT_CLIENTSECRET",None)
 
 logger = MyLogger("Plex Title Cards", "./", 100, "-", True, True)
-logger.add_main_handler()
 
 EXCLUDED_RESULTS = load_excluded_links()
 
@@ -272,6 +271,7 @@ def get_source_txt(validation_path):
 
 def scan():
     """Kick off the primary process."""
+    logger.add_main_handler()
     logger.separator("Started Title Cards search at " + datetime.now().strftime("%H:%M:%S"))
     logger.info("")
 
@@ -322,11 +322,11 @@ def main():
         schedule.every().day.at("05:30").do(scan)
         schedule.every().day.at("11:30").do(scan)
         schedule.every().day.at("15:30").do(scan)
-        schedule.every().day.at("22:30").do(scan)
+        schedule.every().day.at("23:30").do(scan)
 
         while True:
             schedule.run_pending()
-            time.sleep(60)
+            time.sleep(10)
     
 if __name__ == "__main__":
     main()
