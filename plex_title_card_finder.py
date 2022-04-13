@@ -94,7 +94,7 @@ def saveGoogleDriveFiles(link,missing_episodes,series_path):
                 if regex:
                    current_SE = regex.group()
                    if current_SE in missing:
-                       full_name = series_path + '\\' + current_SE + '.' + file1['fileExtension']
+                       full_name = series_path + '/' + current_SE + '.' + file1['fileExtension']
                        logger.info('Downloading File: ' + full_name)
                        file1.GetContentFile(full_name)
                        total_downloaded = total_downloaded + 1
