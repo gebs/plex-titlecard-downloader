@@ -54,8 +54,8 @@ sonarr_apikey = get_args("SONARR_APIKEY",None)
 sonarr_url = get_args("SONARR_URL",None)
 reddit_clientId =get_args("REDDIT_CLIENTID",None)
 reddit_clientSecret=get_args("REDDIT_CLIENTSECRET",None)
-ntfy_server = getargs("NTFY_SERVER",None)
-ntfy_user = getargs("NTFY_USER",None)
+ntfy_server = get_args("NTFY_SERVER",None)
+ntfy_user = get_args("NTFY_USER",None)
 
 logger = MyLogger("Plex Title Cards", "./", 100, "-", True, True)
 
