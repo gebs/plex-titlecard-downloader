@@ -1,3 +1,4 @@
+from inspect import getargs
 import json, re, os, glob, argparse,time
 import requests
 import praw
@@ -53,6 +54,8 @@ sonarr_apikey = get_args("SONARR_APIKEY",None)
 sonarr_url = get_args("SONARR_URL",None)
 reddit_clientId =get_args("REDDIT_CLIENTID",None)
 reddit_clientSecret=get_args("REDDIT_CLIENTSECRET",None)
+ntfy_server = getargs("NTFY_SERVER",None)
+ntfy_user = getargs("NTFY_USER",None)
 
 logger = MyLogger("Plex Title Cards", "./", 100, "-", True, True)
 
@@ -269,6 +272,17 @@ def get_source_txt(validation_path):
     else:
         return ""
 
+def send_notification(text):
+    if ntfy_server:
+        requests.post(ntfy_server,
+        data=json.dumps({
+            "topic": "plex-titlecards-downloader",
+            "message": text,
+            "title": "Plex Titlecards downloader finished",
+        }),
+        headers={"Authorization": ntfy_user}
+        )
+
 def scan():
     """Kick off the primary process."""
     logger.add_main_handler()
@@ -312,6 +326,11 @@ def scan():
     logger.info("Total cards downloaded: " + str(total_downloaded))
     logger.info("")
     logger.separator()
+
+    send_notification("Total shows scanned: "+ str(z)
+                    + "\nTotal new shows found: " + str(total_missing_shows)
+                    + "\nTotal missing episodes: " + str(total_missing_ep - total_downloaded)
+                    + "\nTotal cards downloaded: " + str(total_downloaded))
 
 
 
